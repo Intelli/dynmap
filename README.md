@@ -17,6 +17,10 @@ common libraries are built using JDK 8.
 To build and get all jars in `target/`, run:
 
     ./gradlew setup build
+
+Building support for Minecraft 26.1.2 requires the Spigot 26.1.2 server jar in your local Maven repository (used only at compile time for NMS). Install it with BuildTools (JDK 25+):
+
+    java -jar BuildTools.jar --rev 26.1.2
     
 Or (on Windows):
 
@@ -32,8 +36,8 @@ The following target platforms are supported, and you can find them at the links
 
 | Server type  | Version | Dynmap JAR | Where? |
 | ------------ | ------- | ---------- | ------ |
-| Paper | ≥1.21.10  | `Dynmap-<version>-spigot.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
-| Paper | ≥1.21.10 | `Dynmap-<version>-spigot.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper) |
+| Paper | ≥1.21.10, ≥26.1.2  | `Dynmap-<version>-spigot.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
+| Paper | ≥1.21.10, ≥26.1.2 | `Dynmap-<version>-spigot.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper) |
     
 # Data Storage
 Dynmap supports the following storage backends:

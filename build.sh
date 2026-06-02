@@ -8,8 +8,10 @@ cd "$ROOT"
 
 # Map bukkit-helper module ids (e.g. 121-11) to Minecraft versions (e.g. 1.21.11).
 module_id_to_mc_version() {
-  local mod="$1" a b
-  if [[ "$mod" =~ ^([0-9]+)-([0-9]+)$ ]]; then
+  local mod="$1" a b c
+  if [[ "$mod" =~ ^([0-9]+)-([0-9]+)-([0-9]+)$ ]]; then
+    printf '%s.%s.%s\n' "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"
+  elif [[ "$mod" =~ ^([0-9]+)-([0-9]+)$ ]]; then
     a="${BASH_REMATCH[1]}"
     b="${BASH_REMATCH[2]}"
     printf '%s.%s.%s\n' "${a:0:1}" "${a:1}" "$b"
@@ -28,7 +30,7 @@ resolve_max_paper_mc_version() {
     if [[ -z "$best" ]] || [[ "$(printf '%s\n%s\n' "$best" "$version" | sort -V | tail -1)" == "$version" ]]; then
       best="$version"
     fi
-  done < <(grep -oE 'bukkit-helper-[0-9]+(-[0-9]+)?' "$ROOT/settings.gradle" | sed 's/^bukkit-helper-//')
+  done < <(grep -oE 'bukkit-helper-[0-9]+(-[0-9]+)+' "$ROOT/settings.gradle" | sed 's/^bukkit-helper-//')
   if [[ -z "$best" ]]; then
     echo "error: could not determine max Paper MC version from settings.gradle" >&2
     exit 1
@@ -79,6 +81,5 @@ fi
 jar="$(ls -t "${jars[@]}" | head -1)"
 mc_version="$(resolve_max_paper_mc_version)"
 dest="$ROOT/Dynmap-Paper-${mc_version}.jar"
-rm -f "$ROOT"/Dynmap-Paper-*.jar "$ROOT"/Dynmap-*-spigot.jar
 cp -f "$jar" "$dest"
 echo "Installed $(basename "$dest") (latest supported MC ${mc_version})"

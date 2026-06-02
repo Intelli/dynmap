@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper on Minecraft 1.21.10 and newer (Paper API for compile; NMS helpers use the matching Spigot server jar for internal types only).
+Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper on Minecraft 1.21.10+ and 26.1.2+ (Paper API for compile; NMS helpers use the matching Spigot server jar from BuildTools for internal types only).
 
 ## Build Commands
 
@@ -40,7 +40,7 @@ Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper o
 
 **Platform Implementations:**
 - `spigot/` - Bukkit/PaperMC implementation (`DynmapPlugin.java`)
-- `bukkit-helper-121-10`, `bukkit-helper-121-11` - Version-specific NMS code for Minecraft 1.21.10+
+- `bukkit-helper-121-10`, `bukkit-helper-121-11`, `bukkit-helper-26-1-2` - Version-specific NMS code for Minecraft 1.21.10+ and 26.1.2+
 
 ### Dependency Flow
 ```

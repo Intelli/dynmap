@@ -1,0 +1,30 @@
+eclipse {
+    project {
+        name = "Dynmap(Paper-26.1.2)"
+    }
+}
+
+description = 'bukkit-helper-26.1.2'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(25)
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // Emit Java 21 bytecode so shadowJar (and older JDKs in the build) can process classes
+    options.release = 21
+}
+
+dependencies {
+    implementation project(':bukkit-helper')
+    implementation project(':dynmap-api')
+    implementation project(path: ':DynmapCore', configuration: 'shadow')
+    // Requires local install: java -jar BuildTools.jar --rev 26.1.2 (JDK 25+)
+    compileOnly('org.spigotmc:spigot:26.1.2-R0.1-SNAPSHOT') {
+        exclude group: 'com.mojang', module: 'jtracy'
+    }
+}

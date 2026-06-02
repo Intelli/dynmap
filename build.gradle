@@ -58,8 +58,10 @@ subprojects {
   apply plugin: 'java'
   apply plugin: 'maven-publish'
 
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
+  if (project.name != 'bukkit-helper-26-1-2' && !project.name.startsWith('bukkit-helper-121')) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+  }
   tasks.withType(JavaCompile) {
   	options.encoding = 'UTF-8'
   }
