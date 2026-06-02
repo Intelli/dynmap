@@ -82,14 +82,9 @@ import org.dynmap.bukkit.helper.BukkitVersionHelper;
 import org.dynmap.bukkit.helper.BukkitWorld;
 import org.dynmap.bukkit.helper.SnapshotCache;
 import org.dynmap.bukkit.permissions.BukkitPermissions;
-import org.dynmap.bukkit.permissions.NijikokunPermissions;
 import org.dynmap.bukkit.permissions.OpPermissions;
-import org.dynmap.bukkit.permissions.PEXPermissions;
-import org.dynmap.bukkit.permissions.PermBukkitPermissions;
-import org.dynmap.bukkit.permissions.GroupManagerPermissions;
 import org.dynmap.bukkit.permissions.PermissionProvider;
 import org.dynmap.bukkit.permissions.VaultPermissions;
-import org.dynmap.bukkit.permissions.bPermPermissions;
 import org.dynmap.bukkit.permissions.LuckPerms5Permissions;
 import org.dynmap.common.BiomeMap;
 import org.dynmap.common.DynmapCommandSender;
@@ -296,15 +291,8 @@ public class DynmapPlugin extends JavaPlugin implements DynmapAPI {
             else
                 return null;
         }
-        private boolean noservername = false;
         @Override
         public String getServerName() {
-        	try {
-        		if (!noservername)
-        			return getServer().getServerName();
-        	} catch (NoSuchMethodError x) {	// Missing in 1.14 spigot - no idea why removed...
-        		noservername = true;
-        	}
     		return getServer().getMotd();
         }
         private boolean isBanned(OfflinePlayer p) {
@@ -731,7 +719,7 @@ public class DynmapPlugin extends JavaPlugin implements DynmapAPI {
         @Override
         public int getArmorPoints() {
             if(player != null)
-                return (int) player.getAttribute(Attribute.GENERIC_ARMOR).getValue();
+                return (int) player.getAttribute(Attribute.ARMOR).getValue();
             else
                 return 0;
         }
@@ -945,17 +933,7 @@ public class DynmapPlugin extends JavaPlugin implements DynmapAPI {
         }
         
 
-        permissions = PEXPermissions.create(getServer(), "dynmap");
-        if (permissions == null)
-            permissions = bPermPermissions.create(getServer(), "dynmap", perdefs);
-        if (permissions == null)
-            permissions = PermBukkitPermissions.create(getServer(), "dynmap", perdefs);
-        if (permissions == null)
-            permissions = NijikokunPermissions.create(getServer(), "dynmap");
-        if (permissions == null)
-            permissions = GroupManagerPermissions.create(getServer(), "dynmap");
-        if (permissions == null)
-            permissions = LuckPerms5Permissions.create(getServer(), "dynmap");
+        permissions = LuckPerms5Permissions.create(getServer(), "dynmap");
         if (permissions == null)
             permissions = VaultPermissions.create(this, "dynmap");
         if (permissions == null)
@@ -1445,9 +1423,7 @@ public class DynmapPlugin extends JavaPlugin implements DynmapAPI {
                     Material m = b.getType();
                     if(m == null) return;
                     switch(m) {
-                        case STATIONARY_WATER:
                         case WATER:
-                        case STATIONARY_LAVA:
                         case LAVA:
                         case GRAVEL:
                         case SAND:

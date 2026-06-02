@@ -199,11 +199,7 @@ public abstract class BukkitVersionHelper {
      * @param chunks - chunk list
      * @return cache
      */
-    public MapChunkCache getChunkCache(BukkitWorld dw, List<DynmapChunk> chunks) {
-        AbstractMapChunkCache c = new MapChunkCacheClassic();
-        c.setChunks(dw, chunks);
-        return c;
-    }
+    public abstract MapChunkCache getChunkCache(BukkitWorld dw, List<DynmapChunk> chunks);
 	public Object[] getBlockIDFieldFromSnapshot(ChunkSnapshot css) {
 		return null;
 	}

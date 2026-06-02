@@ -32,8 +32,8 @@ The following target platforms are supported, and you can find them at the links
 
 | Server type  | Version | Dynmap JAR | Where? |
 | ------------ | ------- | ---------- | ------ |
-| Spigot/PaperMC | ≤1.21.4  | `Dynmap-<version>-spigot.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
-| Spigot/PaperMC | ≤1.21.4 | `Dynmap-<version>-spigot.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper&l=spigot) |
+| Spigot/PaperMC | ≥1.21.10  | `Dynmap-<version>-spigot.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
+| Spigot/PaperMC | ≥1.21.10 | `Dynmap-<version>-spigot.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper&l=spigot) |
     
 # Data Storage
 Dynmap supports the following storage backends:

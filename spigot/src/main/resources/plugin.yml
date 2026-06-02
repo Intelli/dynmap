@@ -1,10 +1,10 @@
 name: dynmap
 main: org.dynmap.bukkit.DynmapPlugin
 version: "${version}-${buildnumber}"
-api-version: 1.13
+api-version: '1.21.10'
 authors: [mikeprimm]
 website: "https://www.reddit.com/r/Dynmap/"
-softdepend: [ Permissions, PermissionEx, bPermissions, PermissionsBukkit, GroupManager, LuckPerms, Vault, SkinsRestorer ]
+softdepend: [ LuckPerms, Vault, SkinsRestorer ]
 commands:
   dynmap:
     description: Controls Dynmap.
