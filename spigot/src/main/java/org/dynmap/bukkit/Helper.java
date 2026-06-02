@@ -24,15 +24,13 @@ public class Helper {
             Log.info("version=" + v);
             if (v.contains("MCPC")) {
                 Log.severe("*********************************************************************************");
-                Log.severe("* MCPC-Plus is no longer supported via the Bukkit version of Dynmap.            *");
-                Log.severe("* Install the appropriate Forge version of Dynmap.                              *");
+                Log.severe("* MCPC-Plus is not supported.                                                   *");
                 Log.severe("* Add the DynmapCBBridge plugin to enable support for Dynmap-compatible plugins *");
                 Log.severe("*********************************************************************************");
             }
             else if(v.contains("BukkitForge")) {
                 Log.severe("*********************************************************************************");
-                Log.severe("* BukkitForge is not supported via the Bukkit version of Dynmap.                *");
-                Log.severe("* Install the appropriate Forge version of Dynmap.                              *");
+                Log.severe("* BukkitForge is not supported.                                                 *");
                 Log.severe("* Add the DynmapCBBridge plugin to enable support for Dynmap-compatible plugins *");
                 Log.severe("*********************************************************************************");
             }

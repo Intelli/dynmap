@@ -209,9 +209,8 @@ public class DynmapCore implements DynmapCommonAPI {
         this.plugin_ver = pluginver;
         this.platform = platform;
     }
-    /* Default platform to forge... */
     public void setPluginVersion(String pluginver) {
-        setPluginVersion(pluginver, "Forge");
+        setPluginVersion(pluginver, "CraftBukkit");
     }
     public void setDataFolder(File dir) {
         dataDirectory = dir;
@@ -3085,7 +3084,7 @@ public class DynmapCore implements DynmapCommonAPI {
     public boolean dumpMissingBlocks() {
         return dumpMissing;
     }
-    // Notice that server has finished starting (needed for forge, which starts dynmap before full server is running)
+    // Notice that server has finished starting
     public void serverStarted() {
         events.<Object>trigger("server-started", null);
     }

@@ -152,7 +152,7 @@ public abstract class DynmapServerInterface {
      */
     public abstract int getCurrentPlayers();
     /**
-     * Test if given mod is loaded (Forge)
+     * Test if given mod is loaded
      * @param name - mod name
      * @return true if mod loaded
      */

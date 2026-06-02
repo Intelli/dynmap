@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Dynmap is a dynamic web mapping plugin/mod for Minecraft servers. It's a multi-platform project supporting Spigot/PaperMC, Forge, and Fabric across multiple Minecraft versions (1.12.2 - 1.21.x).
+Dynmap is a dynamic web mapping plugin for Minecraft servers. It supports Spigot/PaperMC across multiple Minecraft versions (1.10.2 - 1.21.x).
 
 ## Build Commands
 
@@ -19,15 +19,10 @@ Dynmap is a dynamic web mapping plugin/mod for Minecraft servers. It's a multi-p
 
 # Run unit tests (DynmapCore only — JUnit 4)
 ./gradlew :DynmapCore:test
-
-# Forge 1.12.2 (requires JDK 8 - set JAVA_HOME accordingly)
-cd oldgradle
-./gradlew setup build
 ```
 
 **JDK Requirements:**
 - Default: JDK 21
-- Forge 1.12.2 (oldgradle): JDK 8 strictly required
 - Runtime targets: JDK 8 (1.16-), JDK 16 (1.17.x), JDK 17 (1.18-1.20.4), JDK 21 (1.20.5+)
 
 **Build notes:**
@@ -46,18 +41,16 @@ cd oldgradle
 **Platform Implementations:**
 - `spigot/` - Bukkit/PaperMC implementation (`DynmapPlugin.java`)
 - `bukkit-helper-*` - Version-specific NMS code (one per MC version: 1.13-1.21)
-- `fabric-*` - Fabric mod implementations (1.14.4-1.21.x)
-- `forge-*` - Forge mod implementations (1.14.4-1.21.x); `forge-1.12.2` lives in `oldgradle/`
 
 ### Dependency Flow
 ```
-External Plugins/Mods
+External Plugins
     ↓
 DynmapCoreAPI (stable, published to repo.mikeprimm.com)
     ↓
 DynmapCore (internal, unstable)
     ↓
-Platform-specific modules (Spigot, Fabric, Forge)
+spigot + bukkit-helper-*
 ```
 
 ### Key Components in DynmapCore
@@ -78,10 +71,10 @@ Platform-specific modules (Spigot, Fabric, Forge)
 
 ### Platform Integration Pattern
 
-Each platform module (Spigot `bukkit-helper-*`, Fabric, Forge) must implement:
+The Spigot module (`bukkit-helper-*`) must implement:
 - `MapChunkCache` — Loads and caches chunk data for a tile's required chunks
 - `MapIterator` — Block-by-block iteration over the loaded chunk cache
-- A platform entry point (e.g., `DynmapPlugin` for Spigot) that bootstraps `DynmapCore`
+- A platform entry point (`DynmapPlugin` in `spigot/`) that bootstraps `DynmapCore`
 
 The `bukkit-helper-*` modules contain version-specific NMS code; `spigot/` delegates to the appropriate helper at runtime via reflection.
 
@@ -90,12 +83,12 @@ The `bukkit-helper-*` modules contain version-specific NMS code; `spigot/` deleg
 Unit tests exist in `DynmapCore/src/test/` (JUnit 4) covering `Matrix3D`, `Vector3D`, `IpAddressMatcher`, `DynIntHashMap`, and `BufferInputStream`. Run with `./gradlew :DynmapCore:test`.
 
 Full verification requires:
-1. Building all platforms: `./gradlew setup build` AND `cd oldgradle && ./gradlew setup build`
+1. Building: `./gradlew setup build`
 2. Manual testing on target Minecraft server platforms
 
 ## Critical Contribution Rules
 
-**PRs must build and test on ALL platforms including oldgradle. Changes to DynmapCore/DynmapCoreAPI require testing on all platforms.**
+**PRs must build and test successfully. Changes to DynmapCore/DynmapCoreAPI require a full build.**
 
 - **Java 8 compatibility required** — Code must compile and run on Java 8
 - **Java only** — No Kotlin, Scala, or other JVM languages

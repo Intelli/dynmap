@@ -59,7 +59,7 @@ cease distribution of the unofficial version, unless otherwise authorized to con
 
 Additions of new functions, including new platform support, in this official Dynmap code base MUST be fully contained within the PRs submitted to this 
 repository.  Further, it is always expected than any updates will be built and tested across all relevant platforms - meaning any chances to shared code 
-components (DynmapCore, DynmapCoreAPI) MUST be successfully built and tested on ALL supported platforms (Forge, Spigot, etc).  Changes which break 
+components (DynmapCore, DynmapCoreAPI) MUST be successfully built and tested on all supported platforms.  Changes which break 
 supported platforms will be rejected.
 
 The only interfaces published and maintained as 'stable' are the interfaces of the DynmapCoreAPI (cross platform) and dynmap-api (Bukkit/spigot specific) 

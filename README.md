@@ -22,23 +22,9 @@ Or (on Windows):
 
     gradlew.bat setup build
     
-The Forge 1.12.2 versions (specifically ForgeGradle for these) are very sensitive to being built by JDK 8, so to build them, 
-set JAVA_HOME to correspond to a JDK 8 installation, then build using the following;
-
-    cd oldgradle
-    ./gradlew setup build
-    
-Or (on Windows):
-
-    cd oldgradle
-    gradlew.bat setup build
-
 Those familiar with gradle can save time by specifying a build (or commenting in settings.gradle) BUT this is not suitable for uploading DEV code changes.
 
-NOTE: PR code submissions MUST be built and TESTED for ALL platforms (including oldgradle), or be rejected and negatively influence future approvals. 
-For more check [contributing rules](#contributing-to-dynmaps-code).
-
-    ./gradlew :fabric-1.18:build
+NOTE: PR code submissions MUST be built and tested (see [contributing rules](#contributing-to-dynmaps-code)).
 
     
 # What platforms are supported?
@@ -48,8 +34,6 @@ The following target platforms are supported, and you can find them at the links
 | ------------ | ------- | ---------- | ------ |
 | Spigot/PaperMC | ≤1.21.4  | `Dynmap-<version>-spigot.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
 | Spigot/PaperMC | ≤1.21.4 | `Dynmap-<version>-spigot.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper&l=spigot) |
-| Forge | 1.12.2 - 1.20.6 | `Dynmap-<version>-forge-<MC_VERSION>.jar` | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/dynmapforge) |
-| Fabric | 1.14.4 - 1.21.4 | `Dynmap-<version>-fabric-<MC_VERSION>.jar` | [Curseforge](https://www.curseforge.com/minecraft/mc-mods/dynmapforge) |
     
 # Data Storage
 Dynmap supports the following storage backends:
@@ -59,7 +43,7 @@ Dynmap supports the following storage backends:
 - PostgreSQL (JDBC driver for this is bundled with the Dynmap JAR)
 - MariaDB - is compatible with MySQL, set `storage-type` to `mysql` for it to be recognised or inject the MariaDB driver classes.
 - AWS S3 (allows S3 bucket to be used for storage AND as web site host)
-- †Note: drivers for SQL are usually included for Spigot and its derivatives but not included with other platforms or Dynmap. For Forge and Fabric servers we recommend Kosma's [SQLite mod](https://www.curseforge.com/minecraft/mc-mods/sqlite-jdbc) or [MySQL mod](https://www.curseforge.com/minecraft/mc-mods/mysql-jdbc) to add the needed drivers. Additionally, injecting driver classes into jar file will be recognized and supported.
+- †Note: drivers for SQL are usually included for Spigot and its derivatives but not bundled with Dynmap itself. Injecting driver classes into the jar file will be recognized and supported.
 
 # Contributing to Dynmap's Code
 The Dynmap team welcomes Pull Requests with fixes, new features, and new platform support.  That said, the following rules apply:
@@ -116,7 +100,7 @@ cease distribution of the unofficial version, unless otherwise authorized to con
 
 Additions of new functions, including new platform support, in this official Dynmap code base MUST be fully contained within the PRs submitted to this 
 repository.  Further, it is always expected than any updates will be built and tested across all relevant platforms - meaning any chances to shared code 
-components (DynmapCore, DynmapCoreAPI) MUST be successfully built and tested on ALL supported platforms (Forge, Spigot, etc).  Changes which break 
+components (DynmapCore, DynmapCoreAPI) MUST be successfully built and tested on all supported platforms.  Changes which break 
 supported platforms will be rejected.
 
 The only interfaces published and maintained as 'stable' are the interfaces of the DynmapCoreAPI (cross platform) and dynmap-api (Bukkit/spigot specific) 
