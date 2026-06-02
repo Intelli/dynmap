@@ -54,7 +54,7 @@ public class Helper {
             Log.info("version=" + v);
             if (!isAtLeast12110(v)) {
             	Log.severe("*********************************************************************************");
-            	Log.severe("* Dynmap requires Minecraft 1.21.10 or newer (Spigot/Paper).                    *");
+            	Log.severe("* Dynmap requires Minecraft 1.21.10 or newer (Paper).                         *");
             	Log.severe("* This server reports: " + v);
             	Log.severe("*********************************************************************************");
             }
@@ -66,7 +66,7 @@ public class Helper {
             }
             else {
             	Log.severe("*********************************************************************************");
-            	Log.severe("* Dynmap requires Minecraft 1.21.10 or newer (Spigot/Paper).                    *");
+            	Log.severe("* Dynmap requires Minecraft 1.21.10 or newer (Paper).                         *");
             	Log.severe("* This server reports: " + v);
             	Log.severe("*********************************************************************************");
             }

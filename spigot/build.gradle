@@ -3,7 +3,7 @@ description = 'dynmap'
 
 eclipse {
     project {
-        name = "Dynmap(Spigot)"
+        name = "Dynmap(Paper)"
     }
 }
 
@@ -16,10 +16,10 @@ repositories {
     }
 }
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(17)
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(21)
 
 dependencies {
-    compileOnly('org.spigotmc:spigot-api:1.21.10-R0.1-SNAPSHOT') { transitive = false }
+    compileOnly('io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT')
     compileOnly('net.luckperms:api:5.0')  { transitive = false }
     compileOnly('com.github.MilkBowl:VaultAPI:1.7') { transitive = false }
     compileOnly('net.skinsrestorer:skinsrestorer-api:14.2.+')  { transitive = false }

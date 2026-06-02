@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Dynmap is a dynamic web mapping plugin for Minecraft servers. It supports Spigot/PaperMC on Minecraft 1.21.10 and newer.
+Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper on Minecraft 1.21.10 and newer (Paper API for compile; NMS helpers use the matching Spigot server jar for internal types only).
 
 ## Build Commands
 
