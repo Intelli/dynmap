@@ -6,7 +6,7 @@ eclipse {
 
 description = 'bukkit-helper-1.21.11'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(21)
+java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_21
 
 dependencies {
   implementation project(':bukkit-helper')

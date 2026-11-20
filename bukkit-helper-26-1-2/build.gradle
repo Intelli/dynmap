@@ -6,7 +6,7 @@ eclipse {
 
 description = 'bukkit-helper-26.1.2'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(25)
+java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_25
 
 java {
     toolchain {

@@ -1,19 +1,6 @@
-// Workaround for Shadow not supporting Java 19 classes.
-// Remove this once Shadow updates.
-// See: https://github.com/johnrengelman/shadow/pull/770
-// See: https://discord.com/channels/722722769950998560/793019909055578113/978939925061857315
-buildscript {
-    configurations.all {
-        resolutionStrategy {
-            force("org.ow2.asm:asm:9.5")
-            force("org.ow2.asm:asm-commons:9.5")
-        }
-    }
-}
-
 plugins {
-    //id  "com.github.johnrengelman.shadow" version "7.1.0"
-    id  "io.github.goooler.shadow" version "8.1.7"
+    id  "com.gradleup.shadow" version "9.4.1"
+    id  "io.papermc.paperweight.userdev" version "2.0.0-beta.24" apply false
     id  'java'
     id  'maven-publish'
 }
@@ -28,7 +15,10 @@ eclipse {
 
 allprojects  {
   repositories {
-     mavenLocal()
+     mavenLocal {
+       // Paper's published Gradle metadata carries its transitive BOM constraints.
+       content { excludeVersionByRegex('io.papermc.paper', 'paper-api', '.*\\.build\\..*') }
+     }
      maven { url 'https://libraries.minecraft.net/' }
      maven { url "https://oss.sonatype.org/content/repositories/releases" }
      maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -51,16 +41,20 @@ class Globals {
 }
 ext {
   globals = new Globals()
+  paperVersion = '26.3.build.206-stable'
 }
 
 subprojects {  
-  apply plugin: "io.github.goooler.shadow"
+  apply plugin: "com.gradleup.shadow"
   apply plugin: 'java'
   apply plugin: 'maven-publish'
 
-  if (project.name != 'bukkit-helper-26-1-2' && !project.name.startsWith('bukkit-helper-121')) {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+  java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+  }
+  if (!project.name.startsWith('bukkit-helper-26') && !project.name.startsWith('bukkit-helper-121')) {
+    java.sourceCompatibility = JavaVersion.VERSION_1_8
+    java.targetCompatibility = JavaVersion.VERSION_1_8
   }
   tasks.withType(JavaCompile) {
   	options.encoding = 'UTF-8'

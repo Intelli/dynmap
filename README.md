@@ -9,14 +9,17 @@
 * [Where to go for questions and discussions](#where-to-go-for-questions-and-discussions)
 * [Where to go to make donations](#where-to-go-to-make-donations)
 # How to build
-Dynmap 3.x+ uses Gradle v8.7 for building support for all platforms, with all resulting artifacts produced in the /targets directory.  Due to Minecraft 1.18.x+ requirements, the developer's
-default JDK must be a JDK 21 version - older versions will still be compiled
-to run on the default JDK for those platforms (JDK 8 for 1.16 and earlier, JDK 16 for 1.17.x, JDK 17 for 1.18 to 1.20.4, JDK 21 for 1.20.5+), and 
-common libraries are built using JDK 8.
+The current Paper 26.3 plugin builds with Gradle 9.7.1 using JDK 21 for Gradle and JDK 25 for the Paper plugin and its NMS helper. Shared core/API modules retain Java 8 bytecode. Paper API and the matching development bundle are pinned to `26.3.build.206-stable`; paperweight-userdev downloads the 26.3 server internals automatically.
 
-To build and get all jars in `target/`, run:
+To build all modules and run tests:
 
     ./gradlew setup build
+
+To also copy the plugin to `Dynmap-Paper-26.3.jar` in the repository root:
+
+    ./build.sh
+
+The existing `Dynmap-Paper-1.21.11.jar` and `Dynmap-Paper-26.1.2.jar` release files are preserved. The new plugin requires Paper 26.3 and Java 25.
 
 Building support for Minecraft 26.1.2 requires the Spigot 26.1.2 server jar in your local Maven repository (used only at compile time for NMS). Install it with BuildTools (JDK 25+):
 
@@ -36,8 +39,8 @@ The following target platforms are supported, and you can find them at the links
 
 | Server type  | Version | Dynmap JAR | Where? |
 | ------------ | ------- | ---------- | ------ |
-| Paper | ≥1.21.10, ≥26.1.2  | `Dynmap-<version>-spigot.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
-| Paper | ≥1.21.10, ≥26.1.2 | `Dynmap-<version>-spigot.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper) |
+| Paper | 26.3 | `Dynmap-Paper-26.3.jar` | [SpigotMC](https://www.spigotmc.org/resources/dynmap%C2%AE.274/) |
+| Paper | 26.3 | `Dynmap-Paper-26.3.jar` | [Modrinth](https://modrinth.com/plugin/dynmap/versions?l=paper) |
     
 # Data Storage
 Dynmap supports the following storage backends:

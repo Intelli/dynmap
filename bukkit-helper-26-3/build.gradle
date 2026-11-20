@@ -1,0 +1,23 @@
+plugins {
+    id 'io.papermc.paperweight.userdev'
+}
+
+description = 'bukkit-helper-26.3'
+
+eclipse {
+    project {
+        name = 'Dynmap(Paper-26.3)'
+    }
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
+java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_25
+
+dependencies {
+    implementation project(':bukkit-helper')
+    implementation project(':dynmap-api')
+    implementation project(path: ':DynmapCore', configuration: 'shadow')
+    paperweight.paperDevBundle(rootProject.ext.paperVersion)
+}

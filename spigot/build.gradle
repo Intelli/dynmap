@@ -16,10 +16,13 @@ repositories {
     }
 }
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaLanguageVersion.of(21)
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
+java.sourceCompatibility = java.targetCompatibility = JavaVersion.VERSION_25
 
 dependencies {
-    compileOnly('io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT')
+    compileOnly("io.papermc.paper:paper-api:${rootProject.ext.paperVersion}")
     compileOnly('net.luckperms:api:5.0')  { transitive = false }
     compileOnly('com.github.MilkBowl:VaultAPI:1.7') { transitive = false }
     compileOnly('net.skinsrestorer:skinsrestorer-api:14.2.+')  { transitive = false }
@@ -40,6 +43,9 @@ dependencies {
     implementation(project(':bukkit-helper-26-1-2')) {
         transitive = false
     }
+    implementation(project(':bukkit-helper-26-3')) {
+        transitive = false
+    }
 }
 
 processResources {
@@ -48,7 +54,8 @@ processResources {
         // replace version and mcversion
         expand(
                 buildnumber: project.parent.ext.globals.buildNumber,
-                version: project.version
+                version: project.version,
+                apiVersion: '26.3'
         )
     }
 }
@@ -59,22 +66,69 @@ jar {
 
 shadowJar {
     dependencies {
-        include(dependency('org.bstats::'))
+        include(dependency('org.bstats:.*:.*'))
         include(dependency(':dynmap-api'))
         include(dependency(":DynmapCore"))
         include(dependency(':bukkit-helper'))
         include(dependency(':bukkit-helper-121-10'))
         include(dependency(':bukkit-helper-121-11'))
         include(dependency(':bukkit-helper-26-1-2'))
+        include(dependency(':bukkit-helper-26-3'))
     }
     relocate('org.bstats', 'org.dynmap.bstats')
     destinationDirectory = file '../target'
-    archiveBaseName = "Dynmap"
-    archiveClassifier = 'spigot'
+    archiveFileName = 'Dynmap-Paper-26.3.jar'
+    manifest {
+        attributes('paperweight-mappings-namespace': 'mojang')
+    }
 }
 shadowJar.doLast {
     task ->
-        ant.checksum file: task.archivePath
+        ant.checksum file: task.archiveFile.get().asFile
+}
+
+def pluginJar = tasks.named('shadowJar').flatMap { it.archiveFile }
+def verifyPluginJar = tasks.register('verifyPluginJar') {
+    group = 'verification'
+    description = 'Checks required bundled libraries and loads the relocated bStats chart classes.'
+    dependsOn tasks.named('shadowJar')
+    inputs.file(pluginJar)
+    doLast {
+        File archive = pluginJar.get().asFile
+        new java.util.zip.ZipFile(archive).withCloseable { zip ->
+            [
+                'org/dynmap/bukkit/helper/v26_3/BukkitVersionHelperSpigot26_3.class',
+                'org/dynmap/bstats/bukkit/Metrics.class',
+                'org/dynmap/bstats/MetricsBase.class',
+                'org/dynmap/bstats/charts/CustomChart.class',
+                'org/dynmap/bstats/charts/SimplePie.class',
+                'org/dynmap/bstats/charts/DrilldownPie.class',
+                'org/dynmap/jetty/server/Server.class',
+                'org/dynmap/javax/servlet/Servlet.class',
+                'org/dynmap/snakeyaml/Yaml.class'
+            ].each { name ->
+                if (zip.getEntry(name) == null) {
+                    throw new GradleException("Missing bundled class in ${archive.name}: ${name}")
+                }
+            }
+            // Isolate the archive from Gradle's dependencies so missing relocated classes fail here.
+            new URLClassLoader([archive.toURI().toURL()] as URL[], ClassLoader.getPlatformClassLoader()).withCloseable { loader ->
+                zip.entries().each { entry ->
+                    if (entry.name.startsWith('org/dynmap/bstats/') &&
+                        !entry.name.startsWith('org/dynmap/bstats/bukkit/') &&
+                        entry.name.endsWith('.class')) {
+                        String name = entry.name.substring(0, entry.name.length() - 6).replace('/', '.')
+                        Class.forName(name, false, loader).getDeclaredMethods()
+                    }
+                }
+            }
+        }
+        logger.lifecycle("Verified bundled libraries and bStats class loading in ${archive.name}")
+    }
+}
+
+tasks.named('check') {
+    dependsOn verifyPluginJar
 }
 
 artifacts {

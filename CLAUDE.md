@@ -4,15 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper on Minecraft 1.21.10+ and 26.1.2+ (Paper API for compile; NMS helpers use the matching Spigot server jar from BuildTools for internal types only).
+Dynmap is a dynamic web mapping plugin for Minecraft servers. The current plugin targets Paper 26.3, pinned to `26.3.build.206-stable`. Its NMS helper uses the matching Paper development bundle through paperweight-userdev. Older helper modules and the existing 1.21.11/26.1.2 release JARs are retained.
 
 ## Build Commands
 
 ```bash
-# Build all platforms (requires JDK 21 as default)
+# Build all modules (requires JDK 21 as default and JDK 25 installed)
 ./gradlew setup build
 
 # Build outputs go to /target directory
+# To also copy target/Dynmap-Paper-26.3.jar to the repository root:
+./build.sh
 
 # Build specific module (for faster iteration, but NOT for PR submissions)
 ./gradlew :DynmapCore:build
@@ -22,7 +24,8 @@ Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper o
 ```
 
 **JDK Requirements:**
-- Default: JDK 21
+- Default Gradle runtime: JDK 21 (Gradle 9.7.1)
+- Paper 26.3 plugin/helper: JDK 25 toolchain and runtime
 - Runtime targets: JDK 8 (1.16-), JDK 16 (1.17.x), JDK 17 (1.18-1.20.4), JDK 21 (1.20.5+)
 
 **Build notes:**
@@ -40,7 +43,7 @@ Dynmap is a dynamic web mapping plugin for Minecraft servers. It targets Paper o
 
 **Platform Implementations:**
 - `spigot/` - Bukkit/PaperMC implementation (`DynmapPlugin.java`)
-- `bukkit-helper-121-10`, `bukkit-helper-121-11`, `bukkit-helper-26-1-2` - Version-specific NMS code for Minecraft 1.21.10+ and 26.1.2+
+- `bukkit-helper-121-10`, `bukkit-helper-121-11`, `bukkit-helper-26-1-2`, `bukkit-helper-26-3` - Version-specific NMS code; 26.3 uses the pinned Paper development bundle
 
 ### Dependency Flow
 ```
@@ -90,7 +93,7 @@ Full verification requires:
 
 **PRs must build and test successfully. Changes to DynmapCore/DynmapCoreAPI require a full build.**
 
-- **Java 8 compatibility required** — Code must compile and run on Java 8
+- **Shared core Java 8 compatibility required** — Core/API modules retain Java 8 bytecode; platform helpers and the Paper 26.3 plugin use their required Java versions
 - **Java only** — No Kotlin, Scala, or other JVM languages
 - **No dependency updates** — Library versions are tied to platform compatibility
 - **No platform-specific code** — Must work on Windows, Linux (x86/ARM), macOS, Docker
